@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useDetectionStore, type DetectionRecord } from '@/stores/detection'
 
 const router = useRouter()
+const detectionStore = useDetectionStore()
+
+const historyRecords = ref<DetectionRecord[]>([])
+const isLoading = ref(true)
 
 interface HistoryItem {
   id: string
@@ -18,66 +23,53 @@ interface HistoryItem {
   }>
 }
 
-const historyRecords = ref<HistoryItem[]>([
-  {
-    id: 'IMG_20240115_001',
-    imageUrl: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=agricultural%20crop%20leaf%20with%20disease%20symptoms%20white%20mold%20on%20green%20leaf&image_size=square',
-    timestamp: '2024-01-15 14:30:25',
-    diseaseCount: 2,
-    healthCount: 1,
-    confidence: 0.87,
-    detections: [
-      { className: '白粉病', classNameEn: 'Powdery Mildew', confidence: 0.87 },
-      { className: '叶斑病', classNameEn: 'Leaf Spot', confidence: 0.72 }
-    ]
-  },
-  {
-    id: 'IMG_20240115_002',
-    imageUrl: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=corn%20plant%20leaf%20with%20rust%20disease%20orange%20spots&image_size=square',
-    timestamp: '2024-01-15 10:22:18',
-    diseaseCount: 1,
-    healthCount: 3,
-    confidence: 0.91,
-    detections: [
-      { className: '锈病', classNameEn: 'Rust', confidence: 0.91 }
-    ]
-  },
-  {
-    id: 'IMG_20240114_001',
-    imageUrl: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=tomato%20plant%20leaf%20with%20early%20blight%20disease%20dark%20brown%20spots&image_size=square',
-    timestamp: '2024-01-14 16:45:33',
-    diseaseCount: 1,
-    healthCount: 2,
-    confidence: 0.85,
-    detections: [
-      { className: '早疫病', classNameEn: 'Early Blight', confidence: 0.85 }
-    ]
-  },
-  {
-    id: 'IMG_20240114_002',
-    imageUrl: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=healthy%20green%20rice%20leaves%20agricultural%20field&image_size=square',
-    timestamp: '2024-01-14 09:15:42',
-    diseaseCount: 0,
-    healthCount: 4,
-    confidence: 1.0,
-    detections: []
-  },
-  {
-    id: 'IMG_20240113_001',
-    imageUrl: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=wheat%20plant%20with%20powdery%20mildew%20white%20fungal%20growth&image_size=square',
-    timestamp: '2024-01-13 11:30:55',
-    diseaseCount: 3,
-    healthCount: 0,
-    confidence: 0.78,
-    detections: [
-      { className: '白粉病', classNameEn: 'Powdery Mildew', confidence: 0.78 }
-    ]
+const formattedRecords = ref<HistoryItem[]>([])
+
+function formatRecords(records: DetectionRecord[]) {
+  return records.map(record => {
+    const diseaseCount = record.detections.filter(d => d.label !== 'healthy').length
+    const healthCount = record.detections.filter(d => d.label === 'healthy').length
+    const avgConfidence = record.detections.length > 0
+      ? record.detections.reduce((sum, d) => sum + d.confidence, 0) / record.detections.length
+      : 1.0
+
+    return {
+      id: record.id,
+      imageUrl: record.result_image || '',
+      timestamp: record.created_at,
+      diseaseCount,
+      healthCount,
+      confidence: avgConfidence,
+      detections: record.detections.filter(d => d.label !== 'healthy').map(d => ({
+        className: d.label,
+        classNameEn: d.label_en,
+        confidence: d.confidence
+      }))
+    }
+  })
+}
+
+async function loadHistory() {
+  isLoading.value = true
+  try {
+    await detectionStore.fetchHistory(1, 100)
+    historyRecords.value = detectionStore.history
+    formattedRecords.value = formatRecords(detectionStore.history)
+  } catch (error) {
+    console.error('加载历史记录失败:', error)
+    formattedRecords.value = []
+  } finally {
+    isLoading.value = false
   }
-])
+}
 
 function goBack() {
   router.push('/detect/image')
 }
+
+onMounted(() => {
+  loadHistory()
+})
 </script>
 
 <template>
@@ -92,18 +84,35 @@ function goBack() {
       </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div v-if="isLoading" class="flex justify-center items-center py-12">
+      <div class="animate-spin w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full"></div>
+    </div>
+
+    <div v-else-if="formattedRecords.length === 0" class="bg-white rounded-xl p-12 text-center shadow-md">
+      <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <p class="text-gray-500">暂无检测记录</p>
+    </div>
+
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
-        v-for="record in historyRecords"
+        v-for="record in formattedRecords"
         :key="record.id"
         class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
       >
         <div class="relative">
           <img
+            v-if="record.imageUrl"
             :src="record.imageUrl"
             :alt="'检测记录 ' + record.id"
             class="w-full h-48 object-cover"
           />
+          <div v-else class="w-full h-48 bg-gray-100 flex items-center justify-center">
+            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
           <div
             :class="[
               'absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium',
@@ -146,13 +155,6 @@ function goBack() {
           </div>
         </div>
       </div>
-    </div>
-
-    <div v-if="historyRecords.length === 0" class="bg-white rounded-xl p-12 text-center shadow-md">
-      <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-      <p class="text-gray-500">暂无检测记录</p>
     </div>
   </div>
 </template>

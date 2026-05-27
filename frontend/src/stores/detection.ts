@@ -27,7 +27,7 @@ export const useDetectionStore = defineStore('detection', () => {
     isLoading.value = true
     try {
       const formData = new FormData()
-      formData.append('image', file)
+      formData.append('file', file)
       const response = await api.post<DetectionRecord>('/detect/image', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
