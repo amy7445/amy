@@ -4,16 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b0a821df-4ba8-444e-9b52-445caaea4398" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/PythonProject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/Scripts/python.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/Scripts/pythonw.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/pyvenv.cfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    <list default="true" id="b0a821df-4ba8-444e-9b52-445caaea4398" name="更改" comment="首次提交">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart_agriculture.db" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart_agriculture.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Admin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Admin.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Evaluation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Evaluation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HistoryCompare.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/HistoryCompare.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ImageDetect.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ImageDetect.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ImageDetectHistory.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ImageDetectHistory.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Knowledge.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Knowledge.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/TrendPredict.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/TrendPredict.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/stores/detection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/stores/detection.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +26,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "amy7445"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/amy7445/amy.git",
+    "accountId": "ab1b3a88-2532-42eb-83a8-61b38d8ad3f3"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -31,14 +46,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/38100/Desktop/智慧农业病虫害检测系统",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="智慧农业病虫害检测系统" />
@@ -115,7 +132,20 @@
       <option name="presentableId" value="Default" />
       <updated>1779808120012</updated>
     </task>
+    <task id="LOCAL-00001" summary="首次提交">
+      <option name="closed" value="true" />
+      <created>1779872001360</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1779872001360</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="首次提交" />
+    <option name="LAST_COMMIT_MESSAGE" value="首次提交" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

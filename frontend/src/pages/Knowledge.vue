@@ -128,6 +128,15 @@ function getCategoryIcon(icon: string): string {
 
 <template>
   <div class="space-y-6">
+    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-center gap-3">
+      <svg class="w-5 h-5 text-yellow-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span class="text-yellow-800 text-sm">
+        <strong>注意：</strong>当前显示的是模拟数据，实际数据将在连接真实后端后自动更新。
+      </span>
+    </div>
+    
     <!-- 搜索和筛选 -->
     <div class="bg-white rounded-xl p-6 shadow-md">
       <div class="flex flex-col md:flex-row gap-4">

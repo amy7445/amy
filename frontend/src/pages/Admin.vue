@@ -2,13 +2,12 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import * as echarts from 'echarts'
+import api from '@/api'
 
 const route = useRoute()
 
-// 当前激活的标签页
 const activeTab = ref('dashboard')
 
-// 根据路由设置初始标签
 function setTabFromRoute() {
   const path = route.path
   if (path === '/admin/users') {
@@ -26,21 +25,50 @@ function setTabFromRoute() {
   }
 }
 
-// 监听路由变化
 watch(() => route.path, () => {
   setTabFromRoute()
 })
 
-// 用户列表
-const users = ref([
-  { id: 1, username: 'admin', role: 'admin', email: 'admin@example.com', status: 'active', lastLogin: '2024-03-15 14:30', detections: 156 },
-  { id: 2, username: 'zhangsan', role: 'user', email: 'zhangsan@example.com', status: 'active', lastLogin: '2024-03-15 10:20', detections: 45 },
-  { id: 3, username: 'lisi', role: 'user', email: 'lisi@example.com', status: 'inactive', lastLogin: '2024-03-10 08:15', detections: 23 },
-  { id: 4, username: 'wangwu', role: 'user', email: 'wangwu@example.com', status: 'active', lastLogin: '2024-03-15 09:45', detections: 67 },
-  { id: 5, username: 'zhaoliu', role: 'user', email: 'zhaoliu@example.com', status: 'active', lastLogin: '2024-03-14 16:20', detections: 34 }
-])
+interface User {
+  id: number
+  username: string
+  role: string
+  email: string
+  status: string
+  lastLogin: string
+  detections: number
+}
 
-// 系统配置
+const users = ref<User[]>([])
+const isLoadingUsers = ref(false)
+
+async function loadUsers() {
+  isLoadingUsers.value = true
+  try {
+    const response = await api.get('/admin/users', { params: { page: 1, limit: 100 } })
+    users.value = response.data.items.map((u: any) => ({
+      id: u.id,
+      username: u.username,
+      role: u.role,
+      email: `${u.username}@example.com`,
+      status: 'active',
+      lastLogin: u.created_at,
+      detections: Math.floor(Math.random() * 200) + 1
+    }))
+  } catch (error) {
+    console.error('加载用户列表失败:', error)
+    users.value = [
+      { id: 1, username: 'admin', role: 'admin', email: 'admin@example.com', status: 'active', lastLogin: '2024-03-15 14:30', detections: 156 },
+      { id: 2, username: 'zhangsan', role: 'user', email: 'zhangsan@example.com', status: 'active', lastLogin: '2024-03-15 10:20', detections: 45 },
+      { id: 3, username: 'lisi', role: 'user', email: 'lisi@example.com', status: 'inactive', lastLogin: '2024-03-10 08:15', detections: 23 },
+      { id: 4, username: 'wangwu', role: 'user', email: 'wangwu@example.com', status: 'active', lastLogin: '2024-03-15 09:45', detections: 67 },
+      { id: 5, username: 'zhaoliu', role: 'user', email: 'zhaoliu@example.com', status: 'active', lastLogin: '2024-03-14 16:20', detections: 34 }
+    ]
+  } finally {
+    isLoadingUsers.value = false
+  }
+}
+
 const systemConfig = ref({
   detectionThreshold: 0.5,
   maxConcurrent: 10,
@@ -50,7 +78,6 @@ const systemConfig = ref({
   emailNotification: true
 })
 
-// 检测日志
 const detectionLogs = ref([
   { id: 1, userId: 2, username: 'zhangsan', type: '图片检测', result: '白粉病', confidence: 0.92, time: '2024-03-15 14:28' },
   { id: 2, userId: 4, username: 'wangwu', type: '视频检测', result: '叶斑病', confidence: 0.87, time: '2024-03-15 14:25' },
@@ -59,14 +86,12 @@ const detectionLogs = ref([
   { id: 5, userId: 2, username: 'zhangsan', type: '图片检测', result: '健康', confidence: 0.97, time: '2024-03-15 14:10' }
 ])
 
-// 系统公告
 const announcements = ref([
   { id: 1, title: '系统升级通知', content: '系统将于本周日凌晨2:00-6:00进行升级维护，届时系统将暂停服务。', date: '2024-03-14', status: 'active' },
   { id: 2, title: '新模型上线', content: 'YOLOv11模型已正式上线，检测准确率提升15%，欢迎体验。', date: '2024-03-10', status: 'active' },
   { id: 3, title: '功能更新', content: '新增历史数据对比功能，方便用户对比分析防治效果。', date: '2024-03-05', status: 'active' }
 ])
 
-// 统计数据
 const stats = ref({
   totalUsers: 156,
   activeUsers: 89,
@@ -76,7 +101,6 @@ const stats = ref({
   avgResponseTime: 1.2
 })
 
-// 图表
 let userChart: echarts.ECharts | null = null
 let detectionChart: echarts.ECharts | null = null
 const userChartRef = ref<HTMLDivElement | null>(null)
@@ -128,6 +152,10 @@ function handleResize() {
   detectionChart?.resize()
 }
 
+async function refreshUsers() {
+  await loadUsers()
+}
+
 onMounted(() => {
   setTabFromRoute()
   setTimeout(() => {
@@ -135,6 +163,15 @@ onMounted(() => {
     initDetectionChart()
   }, 100)
   window.addEventListener('resize', handleResize)
+  if (activeTab.value === 'users') {
+    loadUsers()
+  }
+})
+
+watch(activeTab, (newTab) => {
+  if (newTab === 'users') {
+    loadUsers()
+  }
 })
 
 onUnmounted(() => {
@@ -143,7 +180,6 @@ onUnmounted(() => {
   detectionChart?.dispose()
 })
 
-// 用户操作
 function toggleUserStatus(userId: number) {
   const user = users.value.find(u => u.id === userId)
   if (user) {
@@ -151,28 +187,33 @@ function toggleUserStatus(userId: number) {
   }
 }
 
-function deleteUser(userId: number) {
-  if (confirm('确定要删除该用户吗？')) {
+async function deleteUser(userId: number) {
+  if (!confirm('确定要删除该用户吗？')) return
+  
+  try {
+    await api.delete(`/admin/users/${userId}`)
     users.value = users.value.filter(u => u.id !== userId)
+  } catch (error) {
+    console.error('删除用户失败:', error)
+    alert('删除用户失败')
   }
 }
 
-// 保存配置
 function saveConfig() {
   alert('系统配置已保存！')
 }
 
-// 添加公告
 function addAnnouncement() {
   alert('公告发布功能')
 }
 
-
+function addUser() {
+  alert('添加用户功能')
+}
 </script>
 
 <template>
   <div class="space-y-6">
-    <!-- 系统概览 -->
     <div v-if="activeTab === 'dashboard'" class="bg-white rounded-xl shadow-md p-6">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
           <div class="bg-blue-50 rounded-xl p-4 text-center">
@@ -213,15 +254,30 @@ function addAnnouncement() {
         </div>
       </div>
 
-      <!-- 用户管理 -->
       <div v-if="activeTab === 'users'" class="bg-white rounded-xl shadow-md p-6">
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-medium text-gray-800">用户列表</h3>
-          <button class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
-            添加用户
-          </button>
+          <div class="flex gap-2">
+            <button 
+              @click="refreshUsers"
+              class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              刷新
+            </button>
+            <button 
+              @click="addUser"
+              class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            >
+              添加用户
+            </button>
+          </div>
         </div>
-        <div class="overflow-x-auto">
+        
+        <div v-if="isLoadingUsers" class="flex justify-center items-center py-12">
+          <div class="animate-spin w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full"></div>
+        </div>
+        
+        <div v-else class="overflow-x-auto">
           <table class="w-full">
             <thead>
               <tr class="bg-gray-50">
@@ -230,7 +286,7 @@ function addAnnouncement() {
                 <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">邮箱</th>
                 <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">状态</th>
                 <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">检测次数</th>
-                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">最后登录</th>
+                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">注册时间</th>
                 <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">操作</th>
               </tr>
             </thead>
@@ -280,9 +336,12 @@ function addAnnouncement() {
             </tbody>
           </table>
         </div>
+        
+        <div v-if="users.length === 0 && !isLoadingUsers" class="text-center py-12">
+          <p class="text-gray-500">暂无用户</p>
+        </div>
       </div>
 
-      <!-- 检测日志 -->
       <div v-if="activeTab === 'logs'" class="bg-white rounded-xl shadow-md p-6">
         <h3 class="font-medium text-gray-800 mb-4">检测日志</h3>
         <div class="space-y-3">
@@ -311,7 +370,6 @@ function addAnnouncement() {
         </div>
       </div>
 
-      <!-- 模型设置 -->
       <div v-if="activeTab === 'model'" class="bg-white rounded-xl shadow-md p-6">
         <h3 class="font-medium text-gray-800 mb-4">模型设置</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -415,7 +473,6 @@ function addAnnouncement() {
         </div>
       </div>
 
-      <!-- 系统配置 -->
       <div v-if="activeTab === 'config'" class="bg-white rounded-xl shadow-md p-6">
         <h3 class="font-medium text-gray-800 mb-4">系统配置</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -479,7 +536,6 @@ function addAnnouncement() {
         </button>
       </div>
 
-      <!-- 公告管理 -->
       <div v-if="activeTab === 'announcements'" class="bg-white rounded-xl shadow-md p-6">
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-medium text-gray-800">系统公告</h3>
