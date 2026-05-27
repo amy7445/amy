@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-sidebar-bg: #C6F7D0;
+  --color-sidebar-item: #A3E4A3;
+  --color-sidebar-active: #2D5016;
+  --color-primary: #A3E4A3;
+  --color-primary-dark: #2D5016;
+  --color-bg-light: #F5FBF5;
+  --color-bg-white: #FFFFFF;
+  --color-text: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-text-light: #999999;
+  --color-border: #E0E6ED;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans SC', '思源黑体', sans-serif;
+  background-color: var(--color-bg-light);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.font-mono {
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* 卡片样式 */
+.card {
+  @apply bg-white rounded-card p-6 shadow-card;
+}
+
+/* 按钮样式 */
+.btn-primary {
+  @apply bg-primary text-white px-6 py-3 rounded font-medium
+         transition-all duration-200 hover:bg-primary-dark;
+}
+
+.btn-secondary {
+  @apply bg-white border border-gray-300 text-gray-700 px-6 py-3 rounded font-medium
+         transition-all duration-200 hover:bg-gray-50;
+}
+
+/* 输入框样式 */
+.input-field {
+  @apply w-full px-4 py-2 rounded border border-gray-300 bg-white
+         transition-all duration-200 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
+}
+
+/* 磨砂玻璃效果 */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* 侧边栏样式 */
+.sidebar {
+  @apply fixed left-0 top-0 h-full w-56 z-20;
+  background-color: var(--color-sidebar-bg);
+}
+
+/* 内容区样式 */
+.content-area {
+  @apply ml-56 min-h-screen;
+  background-color: var(--color-bg-light);
+}
+
+/* 上传区域 */
+.upload-zone {
+  @apply border-2 border-dashed border-gray-300 rounded p-12 text-center
+         transition-all duration-200 cursor-pointer
+         hover:border-primary hover:bg-primary-light/20;
+}
+
+/* 主布局 */
+.app-layout {
+  @apply flex min-h-screen;
+}
+
+/* 顶部导航栏 */
+.top-navbar {
+  @apply h-16 bg-white border-b flex items-center justify-between px-6 sticky top-0 z-10;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* 侧边栏菜单 */
+.sidebar-menu-item {
+  @apply w-full px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200
+         text-left flex items-center;
+  margin: 4px 12px;
+  border-radius: 6px;
+}
+
+.sidebar-menu-item:hover {
+  background-color: var(--color-sidebar-item);
+}
+
+.sidebar-menu-item.active {
+  background-color: var(--color-sidebar-active);
+  color: white;
+}
+
+.sidebar-menu-item:not(.active) {
+  color: var(--color-text-secondary);
+}
+
+/* 面包屑导航 */
+.breadcrumb-nav {
+  @apply flex items-center text-sm;
+}
+
+.breadcrumb-item {
+  @apply flex items-center;
+}
+
+.breadcrumb-link {
+  @apply cursor-pointer hover:text-primary transition-colors;
+  color: var(--color-text-secondary);
+}
+
+.breadcrumb-link:hover {
+  color: var(--color-primary);
+}
+
+.breadcrumb-current {
+  @apply font-medium;
+  color: var(--color-text);
+}
+
+.breadcrumb-separator {
+  @apply mx-2;
+  color: var(--color-text-light);
+}
+
+/* 导航图标按钮 */
+.nav-icon-btn {
+  @apply w-8 h-8 flex items-center justify-center rounded transition-colors hover:bg-gray-100;
+  color: var(--color-text-secondary);
+}
+
+.nav-icon-btn:hover {
+  color: var(--color-text);
+}
+
+/* 用户头像 */
+.user-avatar {
+  @apply w-10 h-10 rounded-full flex items-center justify-center;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
+}
+
+/* 表格样式 */
+.data-table {
+  @apply w-full border-collapse;
+}
+
+.data-table th {
+  @apply bg-gray-50 text-gray-700 px-4 py-3 text-left font-medium border-b;
+}
+
+.data-table td {
+  @apply px-4 py-3 border-b border-gray-100;
+}
+
+.data-table tr:hover td {
+  @apply bg-gray-50;
+}
