@@ -4,19 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b0a821df-4ba8-444e-9b52-445caaea4398" name="更改" comment="首次提交">
+    <list default="true" id="b0a821df-4ba8-444e-9b52-445caaea4398" name="更改" comment="修正用户管理数据库连接问题">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart_agriculture.db" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart_agriculture.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Admin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Admin.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Evaluation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Evaluation.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HistoryCompare.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/HistoryCompare.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ImageDetect.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ImageDetect.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ImageDetectHistory.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ImageDetectHistory.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Knowledge.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Knowledge.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/TrendPredict.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/TrendPredict.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/stores/detection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/stores/detection.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +39,7 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/38100/Desktop/智慧农业病虫害检测系统",
@@ -140,12 +130,21 @@
       <option name="project" value="LOCAL" />
       <updated>1779872001360</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="修正用户管理数据库连接问题">
+      <option name="closed" value="true" />
+      <created>1779897087703</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1779897087703</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="首次提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="首次提交" />
+    <MESSAGE value="修正用户管理数据库连接问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="修正用户管理数据库连接问题" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
