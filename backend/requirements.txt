@@ -13,3 +13,4 @@ numpy==1.26.4
 opencv-python==4.9.0.80
 Pillow==10.2.0
 python-dateutil==2.8.2
+seaborn==0.13.0
